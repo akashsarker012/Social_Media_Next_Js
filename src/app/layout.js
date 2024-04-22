@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={nunito.className}>
-        <Toaster/>
+        
         {children}
       </body>
     </html>
