@@ -1,8 +1,12 @@
 "use client";
 import Label from "@/components/label";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
+import { MdOutlineCloudUpload } from "react-icons/md";
+import {toast, Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
   const [data, setData] = useState({
@@ -14,6 +18,7 @@ export default function Register() {
     password: "",
     profile_pic: "",
   });
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const handleOnchange = (e) => {
@@ -38,9 +43,35 @@ export default function Register() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(data);
+    const formData = new FormData();
+    formData.set("firstName", data.firstName);
+    formData.set("lastName", data.lastName);
+    formData.set("location", data.location);
+    formData.set("occupation", data.occupation);
+    formData.set("email", data.email);
+    formData.set("password", data.password);
+    formData.set("profile_pic", data.profile_pic);
+
+    const response = await axios.post("/api/register", formData);
+    toast(response.data.message);
+
+    if (response.data.success) {
+      setData({
+        firstName: "",
+        lastName: "",
+        location: "",
+        occupation: "",
+        email: "",
+        password: "",
+        profile_pic: "",
+      });
+      router.push("/login");
+    }
+
+    console.log("res", response);
   };
 
   return (
@@ -72,8 +103,7 @@ export default function Register() {
                 type="text"
                 name="lastName"
                 placeholder="Last Name"
-                disabled={loading}
-              />
+                disabled={loading} />
             </div>
           </div>
           <div className="mb-4">
@@ -85,8 +115,7 @@ export default function Register() {
               type="text"
               name="occupation"
               disabled={loading}
-              placeholder="Occupation"
-            />
+              placeholder="Occupation" />
           </div>
           <div className="mb-4">
             <Label title={"Location"} />
@@ -97,8 +126,7 @@ export default function Register() {
               type="text"
               name="location"
               disabled={loading}
-              placeholder="Location"
-            />
+              placeholder="Location" />
           </div>
           <div className="mb-4">
             <Label title={"Email"} />
@@ -123,45 +151,53 @@ export default function Register() {
               onChange={handleOnchange}
               value={data.password}
               name="password"
-              disabled={loading}
-            />
+              disabled={loading} />
           </div>
           <div className="mb-4">
-            <div
-              onClick={handleOpenFileUploader}
-              className="font-[sans-serif] mx-auto"
-            >
-              <Label title={"Profile Photo"} />
-              <input
-                onChange={handleProfilePic}
-                ref={inputFileRef}
-                type="file"
-                className="w-full text-black text-sm cursor-pointer py-2 mr-4 bg-gray-800 rounded border-2 border-gray-500"
-              />
+            <div className="flex flex-col gap-1">
+              <Label title={"Profile Pic"}></Label>
+              <div
+                className="h-14 bg-slate-100 flex justify-center items-center cursor-pointer border hover:border-blue-700"
+                onClick={handleOpenFileUploader} >
+                <input
+                  type="file"
+                  id="profile_pic"
+                  className="hidden"
+                  ref={inputFileRef}
+                  onChange={handleProfilePic} />
+
+                {Boolean(data.profile_pic?.name) ? (
+                  <p>{data.profile_pic?.name}</p>
+                ) : (
+                  <div className="flex  gap-3">
+                    <MdOutlineCloudUpload />
+                    <p className="text-sm">Upload profile image</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
           <div className="mb-6 text-center">
             <button
               className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 dark:bg-blue-700 dark:text-white dark:hover:bg-blue-900 focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
+              type="submit" >
               Register Account
             </button>
           </div>
           <hr className="mb-3 border-t" />
           <div className="text-center">
-            <a
+            <Link
               className="inline-block text-sm text-blue-500 dark:text-blue-500 align-baseline hover:text-blue-800"
               href="/"
             >
               Forgot Password?
-            </a>
+            </Link>
           </div>
           <div className="text-center">
             <Link
               className="inline-block text-sm text-blue-500 dark:text-blue-500 align-baseline hover:text-blue-800"
-              href={'/login'}
+              href={"/login"}
             >
               Already have an account? Login!
             </Link>
