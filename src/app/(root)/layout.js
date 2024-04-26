@@ -11,7 +11,7 @@ import Header from "@/components/Header";
 
 export default function RootLayout({ children }) {
   return (
-    <main className=" max-w-6xl mx-auto" >
+    <main className="max-w-6xl mx-auto" >
       <Header/>
       {children}
     </main>

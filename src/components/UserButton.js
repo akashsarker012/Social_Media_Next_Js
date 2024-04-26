@@ -1,14 +1,18 @@
+'use client'
 import axios from "axios";
+import { useRouter } from 'next/navigation'
 import React from "react";
 import toast from "react-hot-toast";
 import { FaUserCircle } from "react-icons/fa";
 
 export default function UserButton({className}) {
 
+  const router = useRouter()
+
   const handleUserLogout = async ()=>{
     const response = await axios.get('/api/logout')
-
     toast(response?.data.message)
+    router.push('/login')
   }
   return (
     <div className={`bg-gray-100 p-8 w-80 ${className}`}>

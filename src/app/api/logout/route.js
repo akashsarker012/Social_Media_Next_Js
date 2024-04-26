@@ -1,3 +1,4 @@
+
 import { NextResponse } from 'next/server'
 
 export async function GET(){
@@ -13,7 +14,6 @@ export async function GET(){
         }
 
         response.cookies.set('token','',cookiesOption)
-
         return response
     } catch (error) {
         return NextResponse.json({
