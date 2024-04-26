@@ -7,8 +7,8 @@ import UserButton from "./UserButton";
 export default function Header() {
   const [show, setShow] = useState(false);
 
-  const handleUserButton = () => {
-    setShow(true);
+  const handleUserMenu = () => {
+    setShow((prev)=> !prev);
   };
   return (
     <div className="bg-slate-100 absolute top-0 left-0 w-full">
@@ -25,24 +25,21 @@ export default function Header() {
           <li className="max-lg:border-b max-lg:py-3 px-3">
             <Link
               href="/"
-              className="text-[#007bff] hover:text-[#007bff] text-[15px] block font-semibold"
-            >
+              className="text-[#007bff] hover:text-[#007bff] text-[15px] block font-semibold" >
               Home
             </Link>
           </li>
           <li className="max-lg:border-b max-lg:py-3 px-3">
             <Link
               href="/find-friends"
-              className="text-[#333] hover:text-[#007bff] text-[15px] block font-semibold"
-            >
+              className="text-[#333] hover:text-[#007bff] text-[15px] block font-semibold" >
               Find Friend
             </Link>
           </li>
           <li className="max-lg:border-b max-lg:py-3 px-3">
             <Link
               href="javascript:void(0)"
-              className="text-[#333] hover:text-[#007bff] text-[15px] block font-semibold"
-            >
+              className="text-[#333] hover:text-[#007bff] text-[15px] block font-semibold" >
               Message
             </Link>
           </li>
@@ -76,9 +73,8 @@ export default function Header() {
 
         <div className="flex items-center space-x-8 relative">
           <button
-            onClick={handleUserButton}
-            className="px-5 py-2 text-sm rounded-full text-white border-2 border-[#007bff] bg-[#007bff] hover:bg-[#004bff]"
-          >
+            onClick={handleUserMenu}
+            className="px-5 py-2 text-sm rounded-full text-white border-2 border-[#007bff] bg-[#007bff] hover:bg-[#004bff]" >
             Sign In
           </button>
           {show && <UserButton className=" absolute top-14 right-6" />}
