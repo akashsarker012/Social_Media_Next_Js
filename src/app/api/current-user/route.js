@@ -7,9 +7,6 @@ connectDB()
 export async function GET(request){
     try {
         const user =  await userDetailsToken(request)
-
-        console.log(user, 'user');
-        
         return NextResponse.json({
             message : "Current user Details",
             data : user
