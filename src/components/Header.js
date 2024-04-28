@@ -1,17 +1,21 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import UserButton from "./UserButton";
+import Avatar from "./Avatar";
+import { ContextData } from "@/providers/providers";
+
+
 
 export default function Header() {
   const [show, setShow] = useState(false);
-
+  const user = useContext(ContextData);
   const handleUserMenu = () => {
     setShow((prev)=> !prev);
   };
   return (
-    <div className="bg-slate-100 absolute top-0 left-0 w-full">
+    <div className="bg-slate-100  w-full">
     
     <div className="flex max-w-6xl mx-auto min-h-[80px] flex-wrap items-center justify-between lg:gap-y-2 gap-4 w-full">
       <div>
@@ -72,12 +76,17 @@ export default function Header() {
         </div>
 
         <div className="flex items-center space-x-8 relative">
-          <button
+          <div
             onClick={handleUserMenu}
-            className="px-5 py-2 text-sm rounded-full text-white border-2 border-[#007bff] bg-[#007bff] hover:bg-[#004bff]" >
-            Sign In
-          </button>
-          {show && <UserButton className=" absolute top-14 right-6" />}
+            className="px-5 py-2 text-sm rounded-full text-white" >
+           
+          <Avatar imageURL={user.user?.profile_pic} userId={user.user?._id} disable={true} />
+
+          <p>me</p>
+          </div>
+          {show && 
+          <UserButton className=" absolute top-14 right-6" />
+          }
         </div>
       </div>
     </div>

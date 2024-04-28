@@ -12,13 +12,11 @@ import { Providers } from "@/providers/providers";
 
 export default function RootLayout({ children }) {
   return (
-    <main className="max-w-6xl mx-auto" >
-  <Providers>
-
-      <Header/>
-      {children}
-
-  </Providers>
+    <main className="max-w-6xl mx-auto">
+      <Providers>
+        <Header />
+        {children}
+      </Providers>
     </main>
   );
 }
