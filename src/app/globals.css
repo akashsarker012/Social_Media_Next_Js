@@ -2,11 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
+/* @layer utilities {
   .text-balance{
     text-wrap: balance;
   }
-}
+} */
 body{
   @apply bg-slate-200
+}
+img, video {
+  max-width: 100%;
+  height: default;
 }

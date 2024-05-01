@@ -32,9 +32,9 @@ export default function UserButton({ className }) {
           <FaUserCircle className=" w-16 h-16 mx-auto" />
         </>
       )}
-      <h3 className="text-2xl font-bold text-[#333] text-center">
+      {/* <h3 className="text-2xl font-bold text-[#333] text-center">
         {user.user.occupation}
-      </h3>
+      </h3> */}
 
       <button
         onClick={handleUserLogout}
