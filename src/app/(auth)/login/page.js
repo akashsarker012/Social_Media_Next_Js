@@ -27,7 +27,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await axios.post("api/login", data);
+    const response = await axios.post("/api/login", data);
     toast(response.data.message);
 
     if (response.data.success) {
