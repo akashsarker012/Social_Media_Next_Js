@@ -8,8 +8,8 @@ export const Providers = ({ children }) => {
 
   const fetchCurrentUser = async () => {
     const response = await axios.get("/api/current-user");
-    console.log(response.data.data, "response");
-    setUser(response.data.data);
+    console.log(response?.data?.data, "response");
+    setUser(response?.data?.data);
   };
 
   useEffect(() => {
