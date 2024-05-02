@@ -6,10 +6,10 @@ const commentSchema = new mongoose.Schema({
         default : ""
     },
     userId : {
-        type : String,
+        type : Schema.Types.ObjectId,
         required : true,
-        // ref : 'users'
-    }
+        ref : 'users'
+    },
 },{
     timestamps : true
 })
@@ -25,9 +25,9 @@ const postSchema = new mongoose.Schema({
         default : ""
     },
     userId : {
-        type : String,
+        type : Schema.Types.ObjectId,
         required : true,
-        // ref : 'users'
+        ref : 'users'
     },
     like : {
          type : Array,

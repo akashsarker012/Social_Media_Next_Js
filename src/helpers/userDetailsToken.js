@@ -9,7 +9,7 @@ export const userDetailsToken = async(request) =>{
         if(token){
             const userData = await jwt.verify(token,process.env.SECREAT_KEY_TOKEN)
 
-            const user = await userModel.findOne({ _id : userData.id })
+            const user = await userModel.findOne({ _id : userData?.id })
             return user
         }
 

@@ -13,7 +13,7 @@ const UploadPost = ({ _id, profile_pic }) => {
     image: "",
   });
 
-  console.log(data, "data");
+  // console.log(data, "data");
   const inputFileRef = useRef();
   const [loading, setLoading] = useState(false);
 

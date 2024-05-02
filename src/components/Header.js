@@ -8,8 +8,8 @@ import { ContextData } from "@/providers/providers";
 
 export default function Header() {
   const [show, setShow] = useState(false);
-  const user = useContext(ContextData);
-  console.log(user, "user");
+  const {user, fetchCurrentUserDetails} = useContext(ContextData)
+  // console.log(user, "user");
   const handleUserMenu = () => {
     setShow((prev)=> !prev);
   };
@@ -79,7 +79,7 @@ export default function Header() {
             onClick={handleUserMenu}
             className="px-5 py-2 text-sm rounded-full text-white" >
            
-          <Avatar height={40} width={40} imageURL={user.user?.profile_pic} userId={user.user?._id} disable={true} />
+          <Avatar height={40} width={40} imageURL={user?.profile_pic} userId={user?._id} disable={true} />
 
           {/* <p>me</p> */}
           </div>
