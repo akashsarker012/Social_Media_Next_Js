@@ -1,25 +1,35 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
-import { FaUserCircle } from "react-icons/fa";
+import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-function Avatar({ imageURL, userId, disable,height,width ,className}) {
-  const path = usePathname();
-  return (
-    <div>
-      <Link className={`${className}`} href={disable ? path : "/" + userId}>
-        {imageURL ? (
-          <img className={`rounded-full h-12 w-12  ${className}`}
-            alt="profile"
-            src={imageURL}
-          />
-        ) : (
-          <FaUserCircle className=" w-16 h-16 mx-auto" />
-        )}
-      </Link>
-    </div>
-  );
+const Avatar = ({ imageURL, userId, width, height, disable , extraWidth = 0, extraHeight = 0 }) => {
+    const path = usePathname()
+    return (
+        <Link
+            href={disable ? path :  "/"+userId}
+        >
+            {
+                imageURL ? (
+                    <Image
+                        src={imageURL}
+                        width={width + extraWidth}
+                        height={height + extraHeight}
+                        alt='current user'
+                        className='rounded-full overflow-hidden'
+                    />
+                ) :
+                    (
+                        <Image
+                            src={'/assets/icons/user.png'}
+                            width={width}
+                            height={height}
+                            alt='current user'
+                        />
+                    )
+            }
+        </Link>
+    )
 }
-export default Avatar;
+
+export default Avatar

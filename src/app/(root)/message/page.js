@@ -1,7 +1,11 @@
 import React from 'react'
 
-export default function page() {
+const Message = () => {
   return (
-    <div>page</div>
+    <div>
+      Message
+    </div>
   )
 }
+
+export default Message

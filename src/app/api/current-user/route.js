@@ -1,13 +1,12 @@
-
+import { getUserDetailsFromToken } from "@/helpers/getUserDetailsFromToken";
 import { NextResponse } from "next/server";
 import connectDB from "@/connectDB/db";
-import { userDetailsToken } from "@/helpers/userDetailsToken";
 
 connectDB()
 export async function GET(request){
     try {
-        const user =  await userDetailsToken(request)
-        console.log(user, 'user');  
+        const user =  await getUserDetailsFromToken(request)
+        
         return NextResponse.json({
             message : "Current user Details",
             data : user

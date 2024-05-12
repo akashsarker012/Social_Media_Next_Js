@@ -1,94 +1,136 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
-import React, { useContext, useState } from "react";
-import UserButton from "./UserButton";
-import Avatar from "./Avatar";
-import { ContextData } from "@/providers/providers";
+'use client'
+import React, { useContext, useState } from 'react'
+import Image from 'next/image'
+import { headerNavLink } from '@/contants'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import axios from 'axios'
+import toast from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
+import { ContextData } from '@/providers/provider'
+import Avatar from './Avatar'
 
-export default function Header() {
-  const [show, setShow] = useState(false);
-  const {user, fetchCurrentUserDetails} = useContext(ContextData)
-  // console.log(user, "user");
-  const handleUserMenu = () => {
-    setShow((prev)=> !prev);
-  };
+const Header = () => {
+    const path = usePathname()
+    const router = useRouter()
+    const [openUserMenu,setOpenUserMenu] = useState(false)
+    const {user, fetchCurrentUserDetails} = useContext(ContextData)
+
+    const handleOpenClose = ()=>{
+        setOpenUserMenu((preve) => !preve)
+    }
+
+    const handleUserLogout = async()=>{
+        const response = await axios.get('/api/logout')
+        setOpenUserMenu(false)
+        toast(response?.data.message)
+        router.push("/login")
+    }
+
   return (
-    <div className="bg-slate-100  w-full sticky z-40 shadow top-0">
-    
-    <div className="flex  mx-auto min-h-[80px] flex-wrap items-center justify-between lg:gap-y-2 gap-4 w-full">
-      <div>
-        <Link href="/">
-          <Image src="/assets/logo.png" alt="logo" width={200} height={20} />
-        </Link>
-      </div>
+    <header className='h-16 bg-white sticky z-40 shadow top-0'>
+        <div className='container mx-auto h-full flex items-center px-4 justify-between'>
+                <div className='grid grid-cols-[170px,1fr] items-center'>
+                    <Link href={"/"}>
+                        <Image 
+                            src={'/assets/logo.png'}
+                            width={150}
+                            height={64}
+                            alt='logo'
+                        />
+                    </Link>
 
-      <div>
-        <ul className=" flex items-center  ">
-          <li className="max-lg:border-b max-lg:py-3 px-3">
-            <Link
-              href="/"
-              className="text-[#007bff] hover:text-[#007bff] text-[15px] block font-semibold" >
-              Home
-            </Link>
-          </li>
-          <li className="max-lg:border-b max-lg:py-3 px-3">
-            <Link
-              href="/find-friends"
-              className="text-[#333] hover:text-[#007bff] text-[15px] block font-semibold" >
-              Find Friend
-            </Link>
-          </li>
-          <li className="max-lg:border-b max-lg:py-3 px-3">
-            <Link
-              href="javascript:void(0)"
-              className="text-[#333] hover:text-[#007bff] text-[15px] block font-semibold" >
-              Message
-            </Link>
-          </li>
-          <li className="max-lg:border-b max-lg:py-3 px-3">
-            <Link
-              href="javascript:void(0)"
-              className="text-[#333] hover:text-[#007bff] text-[15px] block font-semibold"
-            >
-              Notification
-            </Link>
-          </li>
-        </ul>
-      </div>
+                    {/**seach input */}
+                    <div className='w-full items-center gap-2 border bg-slate-100 px-1 rounded hidden lg:flex'>
+                        <input 
+                            type='text' 
+                            placeholder='search here...'
+                            className='w-full  max-w-52 bg-slate-100 py-1 px-2 outline-none'
+                        />
+                        <Image 
+                            src={'/assets/icons/search.svg'}
+                            width={20}
+                            height={20}
+                            alt='search'
+                        />
+                    </div>
+                </div>
 
-      <div className="flex gap-x-6 ">
-        <div className="flex border-2 focus-within:border-gray-400 rounded-full px-6 py-3 overflow-hidden max-w-52 ">
-          <input
-            type="text"
-            placeholder="Search something..."
-            className="w-full text-sm bg-transparent outline-none pr-2"
-          />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 192.904 192.904"
-            width="16px"
-            className="cursor-pointer fill-gray-600"
-          >
-            <path d="m190.707 180.101-47.078-47.077c11.702-14.072 18.752-32.142 18.752-51.831C162.381 36.423 125.959 0 81.191 0 36.422 0 0 36.423 0 81.193c0 44.767 36.422 81.187 81.191 81.187 19.688 0 37.759-7.049 51.831-18.751l47.079 47.078a7.474 7.474 0 0 0 5.303 2.197 7.498 7.498 0 0 0 5.303-12.803zM15 81.193C15 44.694 44.693 15 81.191 15c36.497 0 66.189 29.694 66.189 66.193 0 36.496-29.692 66.187-66.189 66.187C44.693 147.38 15 117.689 15 81.193z"></path>
-          </svg>
+                <div className='flex items-center gap-10 h-full'>
+                    {/**navbar */}
+                    <nav className='flex items-center gap-4 h-full'>
+                        {
+                            headerNavLink.map((navlink)=>{ 
+                                const isActive = path === navlink.route
+                                return(
+                                    <Link 
+                                        href={navlink.route}
+                                        className={`flex flex-col justify-center items-center gap-1 h-full px-4 ${isActive && 'bg-slate-100'}`}
+                                    >
+                                        <Image 
+                                            src={navlink.iconUrl}
+                                            width={20}
+                                            height={20}
+                                            alt={navlink.label}
+                                        />
+                                        <p className='text-sm'>{navlink.label}</p>
+                                    </Link>
+                                )
+                            })
+                        }
+                    </nav>
+
+                    <div>
+                        {/**current user login image */}
+                        <div className='flex flex-col justify-center items-center cursor-pointer relative'>
+                            <div onClick={handleOpenClose} className='flex flex-col justify-center items-center'>
+                                
+                                <Avatar
+                                    userId={user?._id}
+                                    imageURL={user?.profile_pic}
+                                    width={28}
+                                    height={28}
+                                    disable={true}
+                                />
+                                <p className='text-sm'>Me</p>
+                            </div>
+                            
+                            {/**user menu  */}
+                            {
+                                openUserMenu && (
+                                    <div className='shadow absolute top-14 right-0 min-w-60 p-4 rounded bg-white'>
+                                        <div className='font-semibold text-center flex flex-col justify-center items-center'>
+                                            
+                                        <Avatar
+                                            userId={user?._id}
+                                            imageURL={user?.profile_pic}
+                                            width={45}
+                                            height={45}
+                                            extraWidth={20}
+                                            extraHeight={20}
+                                        />
+                                        <p className='text-lg'>
+                                            { user?.firstName +" " + user?.lastName}
+                                        </p>
+                                        <p className='text-sm'>
+                                            {user?.occupation}
+                                        </p>
+                                        </div>
+
+                                        <div className='p-[0.5px] my-1 bg-slate-200'></div>
+
+                                        <button className=' bg-red-600  text-white rounded hover:bg-red-700  w-full py-1' onClick={handleUserLogout}>Logout</button>
+                                    </div>
+                                )
+                            }
+                            
+                        </div>
+                    </div>
+                </div>
+
         </div>
-
-        <div className="flex items-center space-x-8 relative">
-          <div
-            onClick={handleUserMenu}
-            className="px-5 py-2 text-sm rounded-full text-white" >
-           
-          <Avatar height={40} width={40} imageURL={user?.profile_pic} userId={user?._id} disable={true} />
-
-          {/* <p>me</p> */}
-          </div>
-          {show && 
-          <UserButton className=" absolute top-14 right-6" />
-          }
-        </div>
-      </div>
-    </div>
-    </div>
-  );
+    </header>
+  )
 }
+
+export default Header

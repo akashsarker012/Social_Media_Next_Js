@@ -5,8 +5,7 @@ import { NextResponse } from 'next/server'
 connectDB()
 export async function GET(){
     try {
-        const post = await postModel.find().populate("userId").sort({ createdAt : -1})
-
+        const post = await postModel.find().populate('userId').sort({ createdAt : -1})
 
         return NextResponse.json({
             data : post,

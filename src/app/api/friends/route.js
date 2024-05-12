@@ -1,35 +1,36 @@
-import connectDB from "@/connectDB/db";
-import { userDetailsToken } from "@/helpers/userDetailsToken";
-import userModel from "@/models/userModel";
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server'
+import connectDB from '@/connectDB/db'
+import { getUserDetailsFromToken } from '@/helpers/getUserDetailsFromToken'
+import userModel from '@/models/userModel'
 
-connectDB();
-export async function GET(request) {
+
+connectDB()
+export async function GET(request){
     try {
+        const user = await getUserDetailsFromToken(request)
 
-        const user = await userDetailsToken(request)
+        const friendListId = user.friends || []
 
-        const friendList = user.friends
-
-        // const friends  = []
-        const friends  = friendList.map(async(userId)=>{
-             const userDetails = await userModel.findOne({ _id : userId })
-             return{
-                 _id : userDetails._id,
-                 firstName : userDetails.firstName,
-                 lastName : userDetails.lastName,
-                 email : userDetails.email,
-                 occupation : userDetails.occupation,
-                 location : userDetails.location,
-                 profile_pic : userDetails.profile_pic
-             }
-         })
-        return NextResponse.json({
-            data : friends,
-            message : "friends list",
-            success : true
+        const friendslist = await userModel.find({
+            _id : { $in : friendListId }
         })
-        
+
+        const friends =  friendslist.map((userData)=>{
+            return{
+                _id : userData._id,
+                firstName : userData.firstName,
+                lastName : userData.lastName,
+                occupation : userData.occupation,
+                profile_pic : userData.profile_pic
+            }
+        })
+
+        return NextResponse.json({
+            message : 'friend list',
+            data :friends,
+            success :true
+        })
+
     } catch (error) {
         return NextResponse.json({
             message : error.message || error,

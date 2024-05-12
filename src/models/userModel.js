@@ -47,17 +47,7 @@ const userSchema = mongoose.Schema({
    friends : {
      type : Array,
      default : []
-   },
-   profileViews : {
-     type : Number,
-     min : 0,
-     default : 0
-},
-profileImpressions : {
-     type : Number,
-     min : 0,
-     default : 0
-},
+   }
 },{
     timeStamps : true
 })

@@ -1,9 +1,10 @@
 import React from 'react'
 
-export default function Divider() {
+const Divider = () => {
   return (
-    <div>
-      <hr className='mt-2'></hr>
+    <div className='bg-slate-200 p-[0.5px] my-3'>
     </div>
   )
 }
+
+export default Divider

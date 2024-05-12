@@ -1,15 +1,14 @@
 import connectDB from '@/connectDB/db'
 import { NextResponse } from 'next/server'
-import uploadImage from '@/helpers/uploadImage'
-import { userDetailsToken } from '@/helpers/userDetailsToken'
 import postModel from '@/models/postModel'
+import { getUserDetailsFromToken } from '@/helpers/getUserDetailsFromToken'
+import uploadImage from '@/helpers/uploadImage'
 
 
 connectDB()
 export async function POST(request){
     try {
-        const user = await userDetailsToken(request)
-        console.log(user,    'user');  
+        const user = await getUserDetailsFromToken(request)
 
         if(!user){
             return NextResponse.json({
@@ -28,9 +27,9 @@ export async function POST(request){
         } 
 
         const payload =  {
-            image : postUpload?.url,
+            image : postUpload.url,
             description : description,
-            userId : user?._id
+            userId : user._id
         }
 
         const post = new postModel(payload)

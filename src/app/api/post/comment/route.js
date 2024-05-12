@@ -1,11 +1,15 @@
-import { userDetailsToken } from "@/helpers/userDetailsToken";
-import postModel from "@/models/postModel";
-import { NextResponse } from "next/server";
-import { comment } from "postcss";
+import connectDB from '@/connectDB/db'
+import { getUserDetailsFromToken } from '@/helpers/getUserDetailsFromToken'
+import postModel from '@/models/postModel'
+import { NextResponse } from 'next/server'
 
-export async function POST(request) {
+connectDB()
+
+
+/***save commment */
+export async function POST(request){
     try {
-        const user = await userDetailsToken(request)
+        const user  = await getUserDetailsFromToken(request)
 
         if(!user){
             return NextResponse.json({
@@ -13,17 +17,29 @@ export async function POST(request) {
                 error : true
             })
         }
-        const { postId , description } = await request.json()
-        const payload = {
-            description : description,
+
+        const { description , postId } = await request.json()
+
+        const payload  = {
+            description :  description,
             userId : user._id
         }
-        const commentPost = await postModel.updateOne({ _id : postId }, {
+
+        const commentPost = await postModel.updateOne({ _id : postId},{
             $push : { comment : payload }
         })
+
+        const commentList = await postModel.find({ _id : postId}).populate({
+            path : 'comment',
+            populate : {
+                path : 'userId'
+            }
+        })
+
         return NextResponse.json({
-            message : "comment post",
-            data : commentPost
+            message : "Comment",
+            data : commentList,
+            success : true
         })
 
     } catch (error) {

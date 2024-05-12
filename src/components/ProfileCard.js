@@ -1,13 +1,12 @@
+'use client'
 import React from 'react'
 import Avatar from './Avatar'
-import { IoLocationOutline } from "react-icons/io5";
-import { FaUserFriends } from "react-icons/fa";
-import Link from 'next/link';
+import Image from 'next/image'
+import Link from 'next/link'
 
-export default function Profilecard({profile_pic,_id,disable,firstName,lastName,location,occupation,friends = [], profileViews = 0 , profileImpressions = 0 }) {
+const ProfileCard = ({_id, firstName, lastName, occupation, location, profile_pic, friends = [], profileViews = 0 , profileImpressions = 0  }) => {
   return (
-    <div >
-  <div className='p-2'>
+    <div className='p-2'>
       {/**image  */}
         <div className='bg-slate-200 h-16 mb-10'>
             <div className='w-16 h-16 rounded-full bg-white mx-auto translate-y-8 shadow-md'>
@@ -31,13 +30,28 @@ export default function Profilecard({profile_pic,_id,disable,firstName,lastName,
           {/**name and friends */}
          <div className='grid gap-1'>
               <div className='flex items-center gap-3'>
-                 <IoLocationOutline></IoLocationOutline>
+                <Image
+                  src={'/assets/icons/location.svg'}
+                  width={20}
+                  height={20}
+                  alt='location'
+                />
                 <p>{location}</p>
               </div>
-              <Link href={'/find-friends'}  className='flex items-center gap-3'>
-               <FaUserFriends/>
-                <p className=' hover:text-blue-400 hover:underline'>Friends <span >{friends?.length}</span></p>
-              </Link>
+              <div  className='flex items-center gap-3'>
+                <Image
+                  src={'/assets/icons/users.svg'}
+                  width={20}
+                  height={20}
+                  alt='location'
+                />
+                <p >Friends <span className='text-xs'>({friends.length})</span></p>
+              </div>
+         </div>
+
+
+         <div className='p-[0.5px] bg-slate-200 my-2'></div>
+
         {/****profile views and profile impresss */}
         <div className='grid gap-1'>
             <div className='flex justify-between items-center gap-3'>
@@ -52,8 +66,9 @@ export default function Profilecard({profile_pic,_id,disable,firstName,lastName,
 
         </div>
 
-         </div>
-    </div>
+     
     </div>
   )
 }
+
+export default ProfileCard

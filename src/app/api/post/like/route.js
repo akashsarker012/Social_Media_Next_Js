@@ -1,12 +1,12 @@
 import connectDB from '@/connectDB/db'
-import { userDetailsToken } from '@/helpers/userDetailsToken'
+import { getUserDetailsFromToken } from '@/helpers/getUserDetailsFromToken'
 import postModel from '@/models/postModel'
 import { NextResponse } from 'next/server'
 
 connectDB()
 export async function POST(request){
     try {
-        const user = await userDetailsToken(request)
+        const user = await getUserDetailsFromToken(request)
 
         const { _id } = await request.json()
 

@@ -1,25 +1,22 @@
-import { v2 as cloudinary } from 'cloudinary';
-
+import {v2 as cloudinary} from 'cloudinary';
+          
 cloudinary.config({ 
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
   api_key: process.env.CLOUDINARY_API_KEY, 
-  api_secret: process.env.CLOUDINARY_API_SECRET 
+  api_secret: process.env.CLOUDINARY_API_SECREAT
 });
 
-const uploadImage = async (file) => {
-    const buffer = Buffer.from(await file.arrayBuffer());
 
-    const uploadFileData = await new Promise((resolve, reject) => {
-        cloudinary.uploader.upload_stream({ folder: "facepedia" }, (error, uploadResult) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(uploadResult);
-            }
-        }).end(buffer);
-    });
+const uploadImage = async(file)=>{
+    const buffer = Buffer.from(await file.arrayBuffer())
 
-    return uploadFileData;
-};
+    const uploadFileData = await new Promise((resolve,reject)=>{
+        cloudinary.uploader.upload_stream({ folder : 'facepedia'},(error,uploadResult)=>{
+            return resolve(uploadResult)
+        }).end(buffer)
+    })
 
-export default uploadImage;
+    return uploadFileData
+}
+
+export default uploadImage
