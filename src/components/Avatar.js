@@ -11,9 +11,7 @@ function Avatar({ imageURL, userId, disable,height,width ,className}) {
     <div>
       <Link className={`${className}`} href={disable ? path : "/" + userId}>
         {imageURL ? (
-          <img className={`rounded-full h-16 w-16  ${className}`}
-          width={20}
-          height={20}
+          <img className={`rounded-full h-12 w-12  ${className}`}
             alt="profile"
             src={imageURL}
           />

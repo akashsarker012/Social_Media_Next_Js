@@ -8,9 +8,10 @@ import React, { useContext, useEffect, useState } from "react";
 
 export default function Home() {
   const { user, fetchCurrentUserDetails } = useContext(ContextData);
+// console.log(user, "user");
 
   const [postData, setPostData] = useState([]);
-  console.log(postData, "postData");
+  // console.log(postData, "postData");
   const fetchPost = async () => {
     const response = await axios.get("/api/post");
     setPostData(response?.data?.data || []);
@@ -22,8 +23,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="container mx-auto p-4 lg:grid grid-cols-[260px,1fr,260px] gap-7 h-full">
-      <section className=" bg-slate-100 p-6">
+    <div className="max-w-6xl mx-auto p-4 lg:grid grid-cols-[260px,1fr,260px] gap-7 h-full">
+      <section className=" bg-slate-100 p-6 h-fit">
         <Profilecard
           _id={user?._id}
           profile_pic={user?.profile_pic}

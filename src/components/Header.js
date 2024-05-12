@@ -14,9 +14,9 @@ export default function Header() {
     setShow((prev)=> !prev);
   };
   return (
-    <div className="bg-slate-100  w-full">
+    <div className="bg-slate-100  w-full sticky z-40 shadow top-0">
     
-    <div className="flex max-w-6xl mx-auto min-h-[80px] flex-wrap items-center justify-between lg:gap-y-2 gap-4 w-full">
+    <div className="flex  mx-auto min-h-[80px] flex-wrap items-center justify-between lg:gap-y-2 gap-4 w-full">
       <div>
         <Link href="/">
           <Image src="/assets/logo.png" alt="logo" width={200} height={20} />

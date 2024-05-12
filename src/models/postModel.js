@@ -9,7 +9,7 @@ const commentSchema = new mongoose.Schema({
         type : Schema.Types.ObjectId,
         required : true,
         ref : 'users'
-    },
+    }
 },{
     timestamps : true
 })
@@ -33,7 +33,7 @@ const postSchema = new mongoose.Schema({
          type : Array,
          default : []
     },
-    comment : commentSchema
+    comment : [commentSchema]
 },{
     timestamps : true
 })
